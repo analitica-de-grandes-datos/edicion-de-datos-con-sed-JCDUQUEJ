@@ -20,13 +20,13 @@
 #  Usted debe escribir un script en bash que use sed para que realice 
 #  las siguientes acciones:
 #    
-#  * Convierta el formato de las fechas de DD/MM/YY a YYYY-MM-DD.
+#  DONE * Convierta el formato de las fechas de DD/MM/YY a YYYY-MM-DD.
 #  
-#  * Transforme el archivo para que todos los campos nulos aparezcan como `\N`.
+#  DONE * Transforme el archivo para que todos los campos nulos aparezcan como `\N`.
 #  
-#  * Reemplace los `;` por `,`.
+#  DONE * Reemplace los `;` por `,`.
 #  
-#  * Use el `.` para indicar decimales.
+#  DONE * Use el `.` para indicar decimales.
 #
 #  El resultado del script se escribe en pantalla.
 #
@@ -41,3 +41,12 @@
 #
 #  >>> Escriba su codigo a partir de este punto <<<
 #
+sed 's/\/\([0-9][0-9]\);/\/20\1;/' data.csv \
+| sed 's/\/\([0-9]\)\//\/0\1\//' \
+| sed 's/\(^[0-9]\)\/\([0-9][0-9]\)\/\([0-9][0-9][0-9][0-9]\)/0\1\/\2\/\3/' \
+| sed 's/\([0-9][0-9]\)\/\([0-9][0-9]\)\/\([0-9][0-9][0-9][0-9]\)/\3\-\2\-\1/' \
+| sed 's/,/./' \
+| sed 's/a/A/' | sed 's/n/N/' | sed 's/c/C/' | sed 's/;N/;\\N/' \
+| sed 's/;;/;\\N;/' \
+| sed 's/;$/;\\N/' \
+| sed 's/;/,/g' > output.csv
